@@ -39,8 +39,8 @@ const postCountSchema = {
 const Post = mongoose.model('post', postSchema);
 const PostCount = mongoose.model('postCount', postCountSchema);
 
-const sendStatus = (status) => {
-  return res.json({
+const sendStatus = (action, status) => {
+  return action.json({
     status: status,
   });
 };
@@ -77,7 +77,7 @@ app.get('/api', async (req, res) => {
     const posts = await Post.find().select('-password');
     return res.json(posts);
   } catch (err) {
-    return sendStatus(err);
+    return sendStatus(res, err);
   }
 });
 
@@ -99,9 +99,9 @@ app.post('/newpost', async (req, res) => {
       { postNumberIs: postNumberIs + 1 }
     );
     !postToSend.op ? bump(postToSend.reply) : null;
-    return sendStatus(200);
+    return sendStatus(res, 200);
   } catch (err) {
-    return sendStatus(err);
+    return sendStatus(res, err);
   }
 });
 
@@ -122,9 +122,9 @@ app.post('/replySage', async (req, res) => {
       { postNumberIs: postNumberIs },
       { postNumberIs: postNumberIs + 1 }
     );
-    return sendStatus(200);
+    return sendStatus(res, 200);
   } catch (err) {
-    return sendStatus(200);
+    return sendStatus(res, 200);
   }
 });
 
@@ -138,9 +138,9 @@ app.post('/deletePost', async (req, res) => {
     });
     //  deleta todas respostas dessa thread
     await Post.deleteMany({ reply: gonnaDelete.randomIdGeneratedByMe });
-    return sendStatus(200);
+    return sendStatus(res, 200);
   } catch (err) {
-    return sendStatus(err);
+    return sendStatus(res, err);
   }
 });
 
@@ -158,9 +158,9 @@ app.post('/deletePostButton', async (req, res) => {
       await Post.deleteMany({ _id: threadToRemove });
       await Post.deleteMany({ reply: findItsReplys });
     }
-    return sendStatus(200);
+    return sendStatus(res, 200);
   } catch (err) {
-    return sendStatus(err);
+    return sendStatus(res, err);
   }
 });
 
@@ -174,10 +174,14 @@ app.post('/deleteReplys', async (req, res) => {
     if (getPassword === password) {
       await Post.deleteMany({ _id: gonnaDeleteId });
     }
-    return sendStatus(200);
+    return sendStatus(res, 200);
   } catch (err) {
-    return sendStatus(200);
+    return sendStatus(res, 200);
   }
+});
+
+app.get('/health', (req, res) => {
+  res.sendStatus(200);
 });
 
 app.listen(PORT, () => {
