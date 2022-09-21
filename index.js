@@ -152,7 +152,7 @@ app.post('/deletePostButton', async (req, res) => {
     const password = req.body.teste[1];
     const findItsReplys = req.body.teste[0].threadsData.randomIdGeneratedByMe;
 
-    const find = await Post.find({ _id: gonnaDeleteId });
+    const find = await Post.find({ _id: threadToRemove });
     const getPassword = find[0].password;
     if (getPassword === password) {
       await Post.deleteMany({ _id: threadToRemove });
