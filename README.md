@@ -1,12 +1,8 @@
 # Felino chan
 
-Um app com a funcionalidade de um imageaboard.
-
+Um app com a funcionalidade de um imageaboard. \
 Live URL: https://felinochan.netlify.app/ \
 Repositório: https://github.com/vitosnatios/felino-chan-Client
-
-Server URL: https://github.com/vitosnatios/Felino-chan-backend \
-Repositório: https://felino-chan-server.onrender.com/api
 
 ## Tecnologias/ferramentas utilizadas:
 
